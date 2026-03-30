@@ -60,7 +60,9 @@ fun CommuntiesScreen(){
 
     Scaffold(
               topBar = {
-                  Box(modifier = Modifier.fillMaxWidth().padding(top = 20.dp)) {
+                  Box(modifier = Modifier.
+                  fillMaxWidth().
+                  padding(top = 20.dp)) {
                       Column {
 
                           Row {
