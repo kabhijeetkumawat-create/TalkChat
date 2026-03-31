@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -19,11 +20,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 import com.abhijeet.talkchat.R
+import com.abhijeet.talkchat.presentation.splashscreen.navigation.Routes
+import kotlinx.coroutines.delay
 
 @Composable
-@Preview(showSystemUi = true)
-fun SplashScreen(){
+fun SplashScreen(navHostController: NavHostController){
+
+    LaunchedEffect(Unit) {
+        delay(1000)
+        navHostController.navigate(Routes.WelcomeScreen){
+
+            popUpTo<Routes.SplashScreen>{inclusive = true}
+
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(
             id = R.drawable.whatsapp_icon),

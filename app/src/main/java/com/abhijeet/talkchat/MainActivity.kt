@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.abhijeet.talkchat.presentation.splashscreen.navigation.WhatsAppNavigationSystem
 import com.abhijeet.talkchat.ui.theme.TalkChatTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TalkChatTheme {
 
-
+                WhatsAppNavigationSystem()
                 }
             }
         }

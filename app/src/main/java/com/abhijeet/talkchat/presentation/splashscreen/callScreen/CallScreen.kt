@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -49,6 +51,14 @@ fun CallScreen() {
     var showMenu by remember {
         mutableStateOf(false)
     }
+
+    val sampleCalls = listOf(
+       Call(image = R.drawable.sharadhakapoor,"sharadha","1:00 AM",true),
+        Call(image = R.drawable.bhuvan_bam,"Bhuvan Bam","10:00 PM",false),
+        Call(image = R.drawable.bhuvan_bam,"Bhuvan Bam","10:00 AM",false)
+    )
+
+
 
     Scaffold(
         topBar = {
@@ -142,20 +152,39 @@ fun CallScreen() {
             BottomNavigation()
         }
 
-    ){
+    ) {
         Column(modifier = Modifier.padding(it)) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             FavouriteSection()
 
-            Button(onClick = {}, colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.light_green),
-            ), modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                Text(text = "Create a new call", color = Color.White, fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold)
+            Button(
+                onClick = {}, colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.light_green),
+                ), modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                Text(
+                    text = "Create a new call", color = Color.White, fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
-            Text(text = "Recent Calls", fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp))
+            Text(
+                text = "Recent Calls",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(
+                    horizontal = 12.dp,
+                    vertical = 8.dp
+                )
+            )
+
+            LazyColumn {
+                items(sampleCalls){ data->
+                    CallItemDesign(data)
+                }
+            }
         }
+
 
     }
 }
