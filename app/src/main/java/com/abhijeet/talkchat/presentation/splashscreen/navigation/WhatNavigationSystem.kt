@@ -13,38 +13,47 @@ import com.abhijeet.talkchat.presentation.splashscreen.userregistrationscreen.Us
 import com.abhijeet.talkchat.presentation.splashscreen.welcomescreen.WelcomeScreen
 
 @Composable
-fun WhatsAppNavigationSystem(){
+fun WhatsAppNavigationSystem() {
 
     val navController = rememberNavController()
 
-    NavHost(startDestination = Routes.SplashScreen, navController = navController){
+    NavHost(
+        navController = navController,
+        startDestination = Routes.Splash.route
+    ) {
 
-        composable<Routes.SplashScreen>{
+        composable(Routes.Splash.route) {
             SplashScreen(navController)
         }
 
-        composable<Routes.WelcomeScreen> {
-            WelcomeScreen()
+        composable(Routes.Welcome.route) {
+            WelcomeScreen(navController)
         }
 
-        composable<Routes.UserRegistrationScreen> {
+        composable(Routes.Register.route) {
             UserRegistrationScreen()
         }
 
-        composable<Routes.HomeScreen> {
+        composable(Routes.Home.route) {
             HomeScreen()
         }
 
-        composable<Routes.UpdateScreen> {
+        composable(Routes.Updates.route) {
             UpdateScreen()
         }
-        composable<Routes.CommunitiesScreen> {
+
+        composable(Routes.Communities.route) {
             CommuntiesScreen()
         }
-        composable<Routes.CallScreen> {
+
+        composable(Routes.Calls.route) {
             CallScreen()
         }
 
-
+        // 🔥 Chat Screen with argument
+      /*  composable(Routes.Chat.route) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId")
+            ChatScreen(userId)
+        }*/
     }
 }

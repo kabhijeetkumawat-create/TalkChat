@@ -1,40 +1,18 @@
 package com.abhijeet.talkchat.presentation.splashscreen.userregistrationscreen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,29 +20,23 @@ import com.abhijeet.talkchat.R
 
 @Composable
 @Preview(showSystemUi = true)
-fun UserRegistrationScreen(){
+fun UserRegistrationScreen() {
 
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-    var selectedCountry by remember{
-        mutableStateOf("India")
-    }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedCountry by remember { mutableStateOf("India") }
+    var countryCode by remember { mutableStateOf("+91") }
+    var phoneNumber by remember { mutableStateOf("") }
+    var errorText by remember { mutableStateOf("") }
 
-    var countryCode by remember{
-        mutableStateOf("+91")
-    }
-    var phoneNumber by remember{
-        mutableStateOf("")
-    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally)
-    {
         Text(
-            text = "Enter your number ",
+            text = "Enter your number",
             fontSize = 20.sp,
             color = colorResource(id = R.color.dark_green),
             fontWeight = FontWeight.Bold
@@ -72,123 +44,135 @@ fun UserRegistrationScreen(){
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ){
         Text(
-            text = "WhatsApp will need to verify your phone number. ",
+            text = "WhatsApp will need to verify your phone number. What's my number?",
             fontSize = 14.sp,
-            color = colorResource(id = R.color.black),
-            fontWeight = FontWeight.Medium
-        )
-            Spacer(modifier = Modifier.width(4.dp))
-
-            Text(
-            text = "What's",
-            fontSize = 14.sp,
-            color = colorResource(id = R.color.dark_green),
-            fontWeight = FontWeight.Medium
+            color = Color.Black
         )
 
-        }
+        Spacer(modifier = Modifier.height(20.dp))
 
-
-            Text(
-                text = "my number? ",
-                fontSize = 14.sp,
-                color = colorResource(id = R.color.dark_green),
-                fontWeight = FontWeight.Medium
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-        TextButton(onClick ={ expanded =true},modifier = Modifier.fillMaxWidth()) {
-
-            Box(modifier =Modifier.width(230.dp)){
-                Text(text= selectedCountry,
+        // Country Selector
+        TextButton(
+            onClick = { expanded = true },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = selectedCountry,
                     modifier = Modifier.align(Alignment.Center),
                     fontSize = 16.sp,
-                    color = Color.Black)
+                    color = Color.Black
+                )
 
-                Icon(imageVector = Icons.Default.ArrowDropDown,
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null,
-                    modifier = Modifier.align(
-                    Alignment.CenterEnd),
+                    modifier = Modifier.align(Alignment.CenterEnd),
                     tint = colorResource(id = R.color.dark_green)
                 )
             }
-
         }
 
-        HorizontalDivider(modifier = Modifier.
-        padding(horizontal = 66.dp),
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 66.dp),
             thickness = 2.dp,
-            color = colorResource(id =R.color.light_green))
+            color = colorResource(id = R.color.light_green)
+        )
 
-        DropdownMenu(expanded = expanded,
-            onDismissRequest = { expanded = false},modifier = Modifier.fillMaxWidth( )) {
-            listOf("Japan","Russia","China","USA").forEach { country ->
-                DropdownMenuItem(text = {Text(text = country)}, onClick = {
-                    selectedCountry = country
-                    expanded = false
-                })
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            listOf("India", "USA", "Japan", "Russia", "China").forEach { country ->
+                DropdownMenuItem(
+                    text = { Text(text = country) },
+                    onClick = {
+                        selectedCountry = country
+                        countryCode = when (country) {
+                            "India" -> "+91"
+                            "USA" -> "+1"
+                            "Japan" -> "+81"
+                            "Russia" -> "+7"
+                            "China" -> "+86"
+                            else -> "+91"
+                        }
+                        expanded = false
+                    }
+                )
             }
         }
-        Column (modifier = Modifier.fillMaxWidth().
-        padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally){
 
-            Row{
-                TextField( value = countryCode,
-                    onValueChange = {
-                    countryCode= it
-                },
-                    modifier = Modifier.width(70.dp),
-                    singleLine = true,
-                    textStyle = LocalTextStyle.current.copy(fontSize = 18.sp),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedContainerColor = Color.Transparent,
+        Spacer(modifier = Modifier.height(20.dp))
 
-                        unfocusedIndicatorColor = colorResource(id = R.color.light_green),
-                        focusedIndicatorColor = colorResource(id = R.color.light_green))
+        // Phone Input
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
 
-                    )
-                Spacer(modifier = Modifier.width(8.dp))
-
-                TextField(value = phoneNumber, onValueChange = {
-                    phoneNumber = it
-                     }, placeholder = {Text(text = "Phone Number")},
-                    singleLine = true,
-                    colors = TextFieldDefaults.colors(
-                         unfocusedContainerColor = Color.Transparent,
-                         focusedContainerColor = Color.Transparent,
-                         unfocusedIndicatorColor = colorResource(id = R.color.light_green),
-                         focusedIndicatorColor = colorResource(id = R.color.light_green)
-                     ))
-
-                }
-            Spacer(modifier = Modifier.height(16.dp))
-
+            // Country Code (non-editable)
             Text(
-                text = "Carrier charges may apply ",
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha =0.6f)
-
+                text = countryCode,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(end = 8.dp)
             )
-            Spacer(modifier = Modifier.height(20.dp))
 
-            Button(onClick ={/*Todo*/},
-                shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.
-                buttonColors(containerColor = colorResource(id = R.color.dark_green))){
-
-                Text(text ="Next", fontSize = 16.sp)
-            }
-
+            TextField(
+                value = phoneNumber,
+                onValueChange = {
+                    phoneNumber = it
+                    errorText = ""
+                },
+                placeholder = { Text(text = "Phone Number") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedIndicatorColor = colorResource(id = R.color.light_green),
+                    focusedIndicatorColor = colorResource(id = R.color.light_green)
+                )
+            )
         }
 
-    }
+        // Error Message
+        if (errorText.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = errorText,
+                color = Color.Red,
+                fontSize = 12.sp
+            )
+        }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Carrier charges may apply",
+            fontSize = 12.sp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = {
+                if (phoneNumber.length < 10) {
+                    errorText = "Enter valid phone number"
+                } else {
+                    errorText = ""
+                    // TODO: Navigate to OTP Screen
+                }
+            },
+            shape = RoundedCornerShape(6.dp),
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.dark_green)
+            )
+        ) {
+            Text(text = "Next", fontSize = 16.sp)
+        }
+    }
 }

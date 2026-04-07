@@ -1,7 +1,5 @@
 package com.abhijeet.talkchat.presentation.splashscreen
 
-import android.R.attr.contentDescription
-import android.window.SplashScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,10 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import com.abhijeet.talkchat.R
 import com.abhijeet.talkchat.presentation.splashscreen.navigation.Routes
@@ -31,10 +27,10 @@ fun SplashScreen(navHostController: NavHostController){
 
     LaunchedEffect(Unit) {
         delay(1000)
-        navHostController.navigate(Routes.WelcomeScreen){
-
-            popUpTo<Routes.SplashScreen>{inclusive = true}
-
+        navHostController.navigate(Routes.Welcome.route) {
+            popUpTo(Routes.Splash.route) {
+                inclusive = true
+            }
         }
     }
 

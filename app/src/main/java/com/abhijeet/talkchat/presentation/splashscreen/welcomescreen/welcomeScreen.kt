@@ -16,11 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.abhijeet.talkchat.R
-
-@Preview(showSystemUi = true)
+import com.abhijeet.talkchat.presentation.splashscreen.navigation.Routes
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navHostController: NavHostController) {
 
     Column(
         modifier = Modifier
@@ -71,6 +71,7 @@ fun WelcomeScreen() {
             )
 
         }
+        Spacer(modifier = Modifier.height(8.dp))
         Row {
             Text(
                 text = "accept the ",
@@ -88,17 +89,21 @@ fun WelcomeScreen() {
         }
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = {/* TODO */}
-            , modifier = Modifier.size(200.dp, 50.dp)
-            ,shape = RoundedCornerShape(8.dp)
-            ,
-             colors = ButtonDefaults.buttonColors(
-              containerColor = colorResource(id = R.color.dark_green)
+        Button(
+            onClick = {
+                navHostController.navigate(Routes.Register.route) {
+                    popUpTo(Routes.Welcome.route) {
+                        inclusive = true
+                    }
+                }
+            },
+            modifier = Modifier.size(200.dp, 50.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(id = R.color.dark_green)
             )
         ) {
-
-             Text(text = "Agree and continue", fontSize = 16.sp)
-
+            Text(text = "Agree and continue", fontSize = 16.sp)
         }
     }
 }
