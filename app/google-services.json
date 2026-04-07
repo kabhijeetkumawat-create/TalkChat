@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "102725485295",
+    "project_id": "talk-chat-fc4ff",
+    "storage_bucket": "talk-chat-fc4ff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102725485295:android:1b2ca8aaa314ccf72d111a",
+        "android_client_info": {
+          "package_name": "com.abhijeet.talkchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo-9lYSOXCD-qJi9fUp1Fn7ZU0aOctWeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
