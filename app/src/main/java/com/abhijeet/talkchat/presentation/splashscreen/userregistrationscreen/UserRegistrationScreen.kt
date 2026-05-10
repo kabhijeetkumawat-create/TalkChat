@@ -1,6 +1,11 @@
 package com.abhijeet.talkchat.presentation.splashscreen.userregistrationscreen
 
+import android.app.Activity
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -12,15 +17,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.abhijeet.talkchat.R
+import com.abhijeet.talkchat.presentation.splashscreen.navigation.Routes
+import com.abhijeet.talkchat.presentation.splashscreen.viewmodel.AuthState
+import com.abhijeet.talkchat.presentation.splashscreen.viewmodel.PhoneAuthViewModel
 
 @Composable
-@Preview(showSystemUi = true)
-fun UserRegistrationScreen() {
+fun UserRegistrationScreen(navController: NavController, phoneAuthViewModel: PhoneAuthViewModel = hiltViewModel()) {
+
+    val authState by phoneAuthViewModel.authState.collectAsState()
+    val context = LocalContext.current
+    val activity = LocalContext.current as Activity
+
+    var otp by remember { mutableStateOf("")}
+    var verificationId by remember {mutableStateOf<String?>(null)}
+
+
 
     var expanded by remember { mutableStateOf(false) }
     var selectedCountry by remember { mutableStateOf("India") }
@@ -31,15 +49,20 @@ fun UserRegistrationScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(18.dp),
+            .background(Color.White)
+            .padding(top = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Spacer(modifier = Modifier.height(10.dp))
+
 
         Text(
             text = "Enter your number",
             fontSize = 20.sp,
             color = colorResource(id = R.color.dark_green),
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 12.dp)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -47,7 +70,8 @@ fun UserRegistrationScreen() {
         Text(
             text = "WhatsApp will need to verify your phone number. What's my number?",
             fontSize = 14.sp,
-            color = Color.Black
+            color = Color.Black,
+            modifier = Modifier.padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -105,17 +129,15 @@ fun UserRegistrationScreen() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Phone Input
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(12.dp)
         ) {
 
-            // Country Code (non-editable)
             Text(
                 text = countryCode,
                 fontSize = 18.sp,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier.padding(end = 8.dp), color = Color.Black
             )
 
             TextField(
@@ -123,8 +145,10 @@ fun UserRegistrationScreen() {
                 onValueChange = {
                     phoneNumber = it
                     errorText = ""
+                    Color.Black
+
                 },
-                placeholder = { Text(text = "Phone Number") },
+                placeholder = { Text(text = "Phone Number", color = colorResource(R.color.black)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -132,7 +156,9 @@ fun UserRegistrationScreen() {
                     unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
                     unfocusedIndicatorColor = colorResource(id = R.color.light_green),
-                    focusedIndicatorColor = colorResource(id = R.color.light_green)
+                    focusedIndicatorColor = colorResource(id = R.color.light_green),
+                    focusedTextColor = colorResource(R.color.black),
+                    unfocusedTextColor = colorResource(R.color.black)
                 )
             )
         }
@@ -152,18 +178,17 @@ fun UserRegistrationScreen() {
         Text(
             text = "Carrier charges may apply",
             fontSize = 12.sp,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            color = colorResource(R.color.black)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
 
-        Button(
+        /*Button(
             onClick = {
                 if (phoneNumber.length < 10) {
                     errorText = "Enter valid phone number"
                 } else {
                     errorText = ""
-                    // TODO: Navigate to OTP Screen
+
                 }
             },
             shape = RoundedCornerShape(6.dp),
@@ -173,6 +198,164 @@ fun UserRegistrationScreen() {
             )
         ) {
             Text(text = "Next", fontSize = 16.sp)
+        }*/
+
+        when (authState) {
+
+            is AuthState.CodeSent -> {
+
+                verificationId = (authState as AuthState.CodeSent).verificationId
+            }
+
+            is AuthState.Ideal -> {
+
+                // do nothing
+            }
+
+            is AuthState.Loading -> {
+
+            }
+
+            is AuthState.Success -> {
+                Log.d("PhoneAuth", "LoginSuccessful")
+
+                phoneAuthViewModel.resetAuthState()
+
+                navController.navigate(Routes.UserProfile) {
+
+                    popUpTo<Routes.Register> {
+                        inclusive = true
+                    }
+                }
+            }
+            is AuthState.Error ->{
+                Toast.makeText(context,(authState as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            }
         }
+
+            if (verificationId == null) {
+                Spacer(modifier = Modifier.height(16.dp))
+
+              /*  Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    TextField(
+                        value = countryCode,
+                        onValueChange = { countryCode = it },
+                        modifier = Modifier.width(70.dp),
+                        singleLine = true,
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = colorResource(R.color.light_green),
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    TextField(
+                        value = phoneNumber,
+                        onValueChange = { phoneNumber = it },
+                        placeholder = { Text("Enter Phone Number") },
+                        singleLine = true,
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+
+                        )
+                    )
+                }*/
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+
+                        if (phoneNumber.isNotEmpty()) {
+                            val fullPhoneNumber = "$countryCode$phoneNumber"
+
+                            phoneAuthViewModel.sendVerificationCode(fullPhoneNumber, activity)
+
+
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Please enter valid Phone number",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }, shape = RoundedCornerShape(6.dp), colors = ButtonDefaults.buttonColors(
+                        colorResource(R.color.dark_green)
+                    )
+                ) {
+                    Text("Send OTP", color = colorResource(R.color.white))
+                }
+
+                if (authState is AuthState.Loading) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    CircularProgressIndicator()
+                }
+            } else {
+                Spacer(modifier = Modifier.height(40.dp))
+
+                Text(
+                    "Enter Otp",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(R.color.dark_green)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextField(
+                    value = otp,
+                    onValueChange = { otp = it },
+                    label = { Text("OTP", color = Color.Black) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.Transparent,
+                        focusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Black,
+                        focusedTextColor = Color.Black
+
+                    )
+
+
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Button(
+                    onClick = {
+                        if (otp.isNotEmpty() && verificationId != null) {
+
+                            phoneAuthViewModel.verifyCode(otp, context)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                " Please enter a valid otp",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }, shape = RoundedCornerShape(6.dp), colors = ButtonDefaults.buttonColors(
+                        colorResource(R.color.dark_green)
+                    )
+                ) {
+
+                    Text("Verify OTP", color = Color.White)
+                }
+                if (authState is AuthState.Loading) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    CircularProgressIndicator()
+                }
+
+
+            }
+
+
+
+        }
+
+
     }
-}
+

@@ -36,7 +36,7 @@ fun CallItemDesign(call: Call){
 
 
     Row(modifier = Modifier.fillMaxWidth().
-    padding(12.dp),
+    padding(4.dp),
         verticalAlignment = Alignment.CenterVertically){
 
         Image(painter = painterResource(call.image),contentDescription = null,
@@ -49,7 +49,7 @@ fun CallItemDesign(call: Call){
 
         Column()
         {
-            Text(text = call.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = call.name, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.Black)
 
             Row{
                 Icon(painter = painterResource(R.drawable.baseline_call_missed_24),

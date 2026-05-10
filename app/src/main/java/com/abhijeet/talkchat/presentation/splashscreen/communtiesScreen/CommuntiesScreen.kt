@@ -1,14 +1,19 @@
 package com.abhijeet.talkchat.presentation.splashscreen.communtiesScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -30,15 +35,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.abhijeet.talkchat.R
 import com.abhijeet.talkchat.presentation.splashscreen.bottomnavigation.BottomNavigation
+import com.abhijeet.talkchat.presentation.splashscreen.navigation.Routes
 
 @Composable
-@Preview
-fun CommuntiesScreen(){
+
+fun CommuntiesScreen(navHostController: NavHostController){
 
 
     var isSearching by remember {
@@ -51,6 +57,7 @@ fun CommuntiesScreen(){
     var showMenu by remember {
         mutableStateOf(false)
     }
+
     val sampleCommunities = listOf(
         Communities(image = R.drawable.img,"Tech Guy","200"),
         Communities(image = R.drawable.img,"Github","150"),
@@ -58,11 +65,11 @@ fun CommuntiesScreen(){
     )
 
 
-    Scaffold(
+    Scaffold(modifier = Modifier.background(color = Color.White).statusBarsPadding(),
               topBar = {
                   Box(modifier = Modifier.
-                  fillMaxWidth().
-                  padding(top = 20.dp)) {
+                  fillMaxWidth()
+                      .background(color = colorResource(R.color.white))) {
                       Column {
 
                           Row {
@@ -82,7 +89,9 @@ fun CommuntiesScreen(){
                                           unfocusedContainerColor = Color.Transparent,
                                           focusedContainerColor = Color.Transparent,
                                           unfocusedIndicatorColor = Color.Transparent,
-                                          focusedIndicatorColor = Color.Transparent
+                                          focusedIndicatorColor = Color.Transparent,
+                                          focusedTextColor = Color.Black,
+                                          unfocusedTextColor = Color.Black
                                       ),
                                       modifier = Modifier.padding(start = 12.dp),
                                       singleLine = true
@@ -99,11 +108,13 @@ fun CommuntiesScreen(){
 
                               Spacer(modifier = Modifier.weight(1f))
                               if (isSearching) {
-                                  IconButton(onClick = {/*TODO*/ }) {
+                                  IconButton(onClick = {isSearching = false
+                                  search = ""}) {
                                       Icon(
                                           painter = painterResource(id = R.drawable.cross),
                                           contentDescription = null,
-                                          modifier = Modifier.size(14.dp)
+                                          modifier = Modifier.size(14.dp),
+                                          tint = Color.Black
                                       )
                                   }
                               } else {
@@ -113,7 +124,9 @@ fun CommuntiesScreen(){
                                       Icon(
                                           painter = painterResource(id = R.drawable.search),
                                           contentDescription = null,
-                                          modifier = Modifier.size(24.dp)
+                                          modifier = Modifier.size(24.dp),
+                                          tint = Color.Black
+
                                       )
                                   }
                                   IconButton(onClick = {
@@ -123,20 +136,22 @@ fun CommuntiesScreen(){
                                       Icon(
                                           painter = painterResource(id = R.drawable.more),
                                           contentDescription = null,
-                                          modifier = Modifier.size(24.dp)
+                                          modifier = Modifier.size(24.dp),
+                                          tint = Color.Black
+
                                       )
 
-                                      DropdownMenu(
+                                      DropdownMenu(modifier = Modifier.background(color = Color.White),
                                           expanded = showMenu,
                                           onDismissRequest = { showMenu = false }) {
                                           DropdownMenuItem(
-                                              text = { Text(text = "Status Privacy") },
+                                              text = { Text(text = "Status Privacy", color = Color.Black ) },
                                               onClick = { showMenu = false })
                                           DropdownMenuItem(
-                                              text = { Text(text = "Create channel") },
+                                              text = { Text(text = "Create channel",color = Color.Black) },
                                               onClick = { showMenu = false })
                                           DropdownMenuItem(
-                                              text = { Text(text = "Settings") },
+                                              text = { Text(text = "Settings",color = Color.Black) },
                                               onClick = { showMenu = false })
 
                                       }
@@ -147,26 +162,55 @@ fun CommuntiesScreen(){
                       }
                   }
               }, bottomBar = {
-            BottomNavigation()
+            BottomNavigation(navHostController, selectedItem = 2, onClick ={
+                        index ->
+                    when(index){
+                        0->{navHostController.navigate(Routes.Home)}
+                        1->{navHostController.navigate(Routes.Updates)}
+                        2->{navHostController.navigate(Routes.Communities)}
+                        3->{navHostController.navigate(Routes.Calls)}
+
+                    }
+                })
         }
     ) {
-        Column(modifier = Modifier.padding(it)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .background(Color.White)
+        ) {
 
-            Button(onClick = {/*TODO*/}, colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.light_green)
-            ),
-                modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-                Text(text = "Start a new Community", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(text="Your Communities", fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
-
-            LazyColumn {
-                items(sampleCommunities.size){
-                    CommunityItemDesign(communities = sampleCommunities[it])
+            item {
+                Button(
+                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(R.color.light_green)
+                    )
+                ) {
+                    Text(
+                        "Start a new Community",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
+            }
+
+            item {
+                Text(
+                    text = "Your Communities",
+                    fontSize = 28.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 12.dp)
+                )
+            }
+
+            items(sampleCommunities) { community ->
+                CommunityItemDesign(communities = community)
             }
         }
     }

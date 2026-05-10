@@ -31,6 +31,7 @@ import com.abhijeet.talkchat.R
 fun MyStatus(){
 
     Row(modifier = Modifier.fillMaxWidth()
+        .background(color = colorResource(R.color.white))
         .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box{
@@ -56,7 +57,7 @@ fun MyStatus(){
         Spacer(modifier = Modifier.width(12.dp))
         Column {
             Text(text = "My Status", fontWeight = FontWeight.Bold,
-                fontSize = 16.sp)
+                fontSize = 16.sp, color = colorResource(R.color.black))
             Spacer(modifier = Modifier.width(4.dp))
             Text(text = "Tap to add status update",
                 color = Color.Gray)
@@ -69,7 +70,9 @@ data class StatusData(val image: Int, val name:String, val time:String)
 
 fun StatusItem(statusData: StatusData){
 
-    Row(modifier = Modifier.fillMaxWidth().padding(12.dp),
+    Row(modifier = Modifier.fillMaxWidth()
+        .padding(12.dp)
+        .background(color = colorResource(R.color.white)),
         verticalAlignment = Alignment.CenterVertically) {
 
         Image(painter = painterResource(id = statusData.image),
@@ -84,7 +87,7 @@ fun StatusItem(statusData: StatusData){
 
         Column {
             Text(text = statusData.name, fontWeight = FontWeight.Bold,
-                fontSize = 16.sp)
+                fontSize = 16.sp,color = Color.Black)
             Text(text = statusData.time,
                 fontSize = 14.sp,
                 color = Color.Gray)

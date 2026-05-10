@@ -26,7 +26,7 @@ fun CommunityItemDesign(communities: Communities){
     Row (
         modifier = Modifier.
         fillMaxWidth().
-        padding(12.dp),
+        padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
         Image(painter = painterResource(id = communities.image),
@@ -37,9 +37,10 @@ fun CommunityItemDesign(communities: Communities){
 
         Column {
             Text(text = communities.name, fontSize = 16.sp,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold,
+                color = Color.Black)
 
-            Text(text = communities.memberCount, color = Color.Gray, fontSize = 14.sp)
+            Text(text = communities.memberCount, color = Color.Black, fontSize = 14.sp)
         }
     }
 

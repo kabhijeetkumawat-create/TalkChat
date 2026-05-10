@@ -1,5 +1,6 @@
 package com.abhijeet.talkchat.presentation.splashscreen.updatescreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -22,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,8 +48,8 @@ fun TopBar(){
         mutableStateOf(false)
     }
 
-    Box(modifier = Modifier.fillMaxWidth().padding(top = 20.dp)){
-        Column {
+    Box(modifier = Modifier.fillMaxWidth().statusBarsPadding().background(color = colorResource(R.color.white))){
+        Column (Modifier.background(color = colorResource(R.color.white))){
 
             Row {
 
@@ -80,20 +84,23 @@ fun TopBar(){
                     IconButton(onClick = {/*TODO*/ }) {
                         Icon(painter = painterResource(id = R.drawable.cross),
                             contentDescription = null,
-                            modifier = Modifier.size(14.dp))
+                            modifier = Modifier.size(14.dp),
+                            tint = Color.Black)
                     }
                 }else{
                     IconButton(onClick = { isSearching = true}) {
 
                         Icon(painter = painterResource(id = R.drawable.camera),
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp))
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.Black)
                     }
                     IconButton(onClick = { isSearching = true}) {
 
                         Icon(painter = painterResource(id = R.drawable.search),
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp))
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.Black)
                     }
                     IconButton(onClick = {
                         showMenu = true
@@ -101,7 +108,8 @@ fun TopBar(){
 
                         Icon(painter = painterResource(id = R.drawable.more),
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.Black
                         )
 
                         DropdownMenu(expanded = showMenu, onDismissRequest = {showMenu = false}) {

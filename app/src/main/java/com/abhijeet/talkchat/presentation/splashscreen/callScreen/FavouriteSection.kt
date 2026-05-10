@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,10 +22,17 @@ fun FavouriteSection(){
 
     val sampleFavourites = listOf(
         FavoriteContact( image = R.drawable.akshay_kumar,"akashy"),
-        FavoriteContact(image = R.drawable.rashmika,"rashmika")
-    )
-    Column (modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)){
-        Text(text = "Favourites",
+        FavoriteContact(image = R.drawable.rashmika,"rashmika"),
+        FavoriteContact( image = R.drawable.girl2,"hii"),
+        FavoriteContact( image = R.drawable.ajay_devgn,"ajay"),
+        FavoriteContact( image = R.drawable.mrbeast,"beast"),
+        FavoriteContact( image = R.drawable.akshay_kumar,"akashy"),
+        FavoriteContact( image = R.drawable.akshay_kumar,"akashy"),
+        )
+
+
+    Column (modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)){
+        Text(text = "Favourites", color =  colorResource(R.color.black),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom=8.dp))

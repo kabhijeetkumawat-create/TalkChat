@@ -1,6 +1,7 @@
 package com.abhijeet.talkchat.presentation.splashscreen.welcomescreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -25,7 +26,8 @@ fun WelcomeScreen(navHostController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(start = 12.dp, end = 12.dp)
+            .background(color = Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -91,8 +93,8 @@ fun WelcomeScreen(navHostController: NavHostController) {
 
         Button(
             onClick = {
-                navHostController.navigate(Routes.Register.route) {
-                    popUpTo(Routes.Welcome.route) {
+                navHostController.navigate(Routes.Register) {
+                    popUpTo(Routes.Welcome) {
                         inclusive = true
                     }
                 }
@@ -103,7 +105,7 @@ fun WelcomeScreen(navHostController: NavHostController) {
                 containerColor = colorResource(id = R.color.dark_green)
             )
         ) {
-            Text(text = "Agree and continue", fontSize = 16.sp)
+            Text(text = "Agree and continue", fontSize = 16.sp, color = colorResource(R.color.white))
         }
     }
 }

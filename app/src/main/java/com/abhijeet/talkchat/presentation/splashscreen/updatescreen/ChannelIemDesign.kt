@@ -53,8 +53,9 @@ fun ChannelItemDesign(channelsData: ChannelsData){
         Column {
             Text(text = channelsData.name,
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
+                fontSize = 16.sp,
+                color = Color.Black
+                )
             Text(text = channelsData.description,
                 fontSize = 14.sp,
                 color = Color.Gray

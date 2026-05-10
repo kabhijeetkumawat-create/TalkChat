@@ -1,6 +1,7 @@
 package com.abhijeet.talkchat.presentation.splashscreen.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -8,8 +9,10 @@ import com.abhijeet.talkchat.presentation.splashscreen.SplashScreen
 import com.abhijeet.talkchat.presentation.splashscreen.callScreen.CallScreen
 import com.abhijeet.talkchat.presentation.splashscreen.communtiesScreen.CommuntiesScreen
 import com.abhijeet.talkchat.presentation.splashscreen.homescreen.HomeScreen
+import com.abhijeet.talkchat.presentation.splashscreen.profile.UserProfileScreen
 import com.abhijeet.talkchat.presentation.splashscreen.updatescreen.UpdateScreen
 import com.abhijeet.talkchat.presentation.splashscreen.userregistrationscreen.UserRegistrationScreen
+import com.abhijeet.talkchat.presentation.splashscreen.viewmodel.BaseViewModel
 import com.abhijeet.talkchat.presentation.splashscreen.welcomescreen.WelcomeScreen
 
 @Composable
@@ -19,35 +22,40 @@ fun WhatsAppNavigationSystem() {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Splash.route
+        startDestination = Routes.Splash
     ) {
 
-        composable(Routes.Splash.route) {
+        composable<Routes.Splash> {
             SplashScreen(navController)
         }
 
-        composable(Routes.Welcome.route) {
+        composable<Routes.Welcome> {
             WelcomeScreen(navController)
         }
 
-        composable(Routes.Register.route) {
-            UserRegistrationScreen()
+        composable<Routes.Register> {
+            UserRegistrationScreen(navController)
         }
 
-        composable(Routes.Home.route) {
-            HomeScreen()
+        composable<Routes.Home> {
+           val baseViewModel : BaseViewModel = hiltViewModel()
+            HomeScreen(navController,baseViewModel)
         }
 
-        composable(Routes.Updates.route) {
-            UpdateScreen()
+        composable<Routes.Updates> {
+            UpdateScreen(navController)
         }
 
-        composable(Routes.Communities.route) {
-            CommuntiesScreen()
+        composable<Routes.Communities> {
+            CommuntiesScreen(navController)
         }
 
-        composable(Routes.Calls.route) {
-            CallScreen()
+        composable<Routes.Calls> {
+            CallScreen(navController)
+        }
+
+        composable<Routes.UserProfile> {
+            UserProfileScreen(navController = navController)
         }
 
         // 🔥 Chat Screen with argument

@@ -19,11 +19,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @HiltViewModel
 class PhoneAuthViewModel @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    private val database: FirebaseDatabase
+    database: FirebaseDatabase
 ): ViewModel() {
     private val _authState = MutableStateFlow<AuthState>(AuthState.Ideal)
 
@@ -94,8 +95,8 @@ class PhoneAuthViewModel @Inject constructor(
 
     private fun markUserAsSignedIn(context: Context){
 
-        val sharedPreferences = context.getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean("isSignedIn",true).apply()
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit { putBoolean("isSignedIn", true) }
 
     }
 
@@ -161,10 +162,15 @@ class PhoneAuthViewModel @Inject constructor(
 
     }
 
+    fun resetAuthState() {
+        _authState.value = AuthState.Ideal
+    }
+
+
     fun signOut(activity: Activity) {
         firebaseAuth.signOut()
-        val sharedPreferences = activity.getSharedPreferences("app_prefs", android.content.Context.MODE_PRIVATE)
-            sharedPreferences.edit().putBoolean("isSignedIn", false).apply()
+        val sharedPreferences = activity.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            sharedPreferences.edit { putBoolean("isSignedIn", false) }
 
 
     }
